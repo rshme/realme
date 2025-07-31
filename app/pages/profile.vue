@@ -4,11 +4,11 @@
     <div class="safe-area-top bg-white shadow-sm">
       <div class="flex items-center justify-between p-4">
         <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="arrow-left" size="24" class="text-gray-600" />
+          <ArrowLeftIcon size="24" class="text-gray-600" />
         </button>
         <h1 class="text-xl font-semibold text-gray-900">Profil</h1>
         <button @click="showSettings = true" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="settings" size="24" class="text-gray-600" />
+          <SettingsIcon size="24" class="text-gray-600" />
         </button>
       </div>
     </div>
@@ -24,7 +24,7 @@
             <h2 class="text-xl font-bold">{{ userProfile.name }}</h2>
             <p class="text-white/80 mb-2">{{ userProfile.email }}</p>
             <div class="flex items-center">
-              <FeatherIcon name="calendar" size="16" class="mr-2" />
+              <CalendarIcon size="16" class="mr-2" />
               <span class="text-sm">Bergabung {{ userProfile.joinDate }}</span>
             </div>
           </div>
@@ -37,7 +37,7 @@
       <div class="grid grid-cols-2 gap-4">
         <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
           <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FeatherIcon name="edit-3" size="24" class="text-blue-600" />
+            <Edit3Icon size="24" class="text-blue-600" />
           </div>
           <div class="text-2xl font-bold text-gray-900">{{ userStats.journalDays }}</div>
           <div class="text-sm text-gray-600">Hari Journal</div>
@@ -45,7 +45,7 @@
         
         <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
           <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FeatherIcon name="book" size="24" class="text-green-600" />
+            <BookIcon size="24" class="text-green-600" />
           </div>
           <div class="text-2xl font-bold text-gray-900">{{ userStats.completedModules }}</div>
           <div class="text-sm text-gray-600">Modul Selesai</div>
@@ -53,7 +53,7 @@
         
         <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
           <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FeatherIcon name="zap" size="24" class="text-purple-600" />
+            <ZapIcon size="24" class="text-purple-600" />
           </div>
           <div class="text-2xl font-bold text-gray-900">{{ userStats.totalXP }}</div>
           <div class="text-sm text-gray-600">Total XP</div>
@@ -61,7 +61,7 @@
         
         <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
           <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FeatherIcon name="award" size="24" class="text-yellow-600" />
+            <AwardIcon size="24" class="text-yellow-600" />
           </div>
           <div class="text-2xl font-bold text-gray-900">Level {{ currentLevel }}</div>
           <div class="text-sm text-gray-600">Progress</div>
@@ -83,7 +83,10 @@
               class="w-10 h-10 rounded-full flex items-center justify-center mr-3"
               :class="achievement.bgColor"
             >
-              <FeatherIcon :name="achievement.icon" size="20" :class="achievement.iconColor" />
+              <ZapIcon v-if="achievement.icon === 'zap'" size="20" :class="achievement.iconColor" />
+              <BookIcon v-else-if="achievement.icon === 'book'" size="20" :class="achievement.iconColor" />
+              <HeartIcon v-else-if="achievement.icon === 'heart'" size="20" :class="achievement.iconColor" />
+              <AwardIcon v-else size="20" :class="achievement.iconColor" />
             </div>
             <div class="flex-1">
               <h4 class="font-medium text-gray-900">{{ achievement.title }}</h4>
@@ -103,9 +106,9 @@
           @click="editProfile"
           class="w-full flex items-center p-4 hover:bg-gray-50 transition-colors duration-200"
         >
-          <FeatherIcon name="user" size="20" class="text-gray-600 mr-3" />
+          <UserIcon size="20" class="text-gray-600 mr-3" />
           <span class="flex-1 text-left text-gray-900">Edit Profil</span>
-          <FeatherIcon name="chevron-right" size="16" class="text-gray-400" />
+          <ChevronRightIcon size="16" class="text-gray-400" />
         </button>
         
         <div class="border-t border-gray-100">
@@ -113,9 +116,9 @@
             @click="manageNotifications"
             class="w-full flex items-center p-4 hover:bg-gray-50 transition-colors duration-200"
           >
-            <FeatherIcon name="bell" size="20" class="text-gray-600 mr-3" />
+            <BellIcon size="20" class="text-gray-600 mr-3" />
             <span class="flex-1 text-left text-gray-900">Notifikasi</span>
-            <FeatherIcon name="chevron-right" size="16" class="text-gray-400" />
+            <ChevronRightIcon size="16" class="text-gray-400" />
           </button>
         </div>
         
@@ -124,9 +127,9 @@
             @click="viewPrivacySettings"
             class="w-full flex items-center p-4 hover:bg-gray-50 transition-colors duration-200"
           >
-            <FeatherIcon name="shield" size="20" class="text-gray-600 mr-3" />
+            <ShieldIcon size="20" class="text-gray-600 mr-3" />
             <span class="flex-1 text-left text-gray-900">Privasi & Keamanan</span>
-            <FeatherIcon name="chevron-right" size="16" class="text-gray-400" />
+            <ChevronRightIcon size="16" class="text-gray-400" />
           </button>
         </div>
         
@@ -135,9 +138,9 @@
             @click="exportData"
             class="w-full flex items-center p-4 hover:bg-gray-50 transition-colors duration-200"
           >
-            <FeatherIcon name="download" size="20" class="text-gray-600 mr-3" />
+            <DownloadIcon size="20" class="text-gray-600 mr-3" />
             <span class="flex-1 text-left text-gray-900">Ekspor Data</span>
-            <FeatherIcon name="chevron-right" size="16" class="text-gray-400" />
+            <ChevronRightIcon size="16" class="text-gray-400" />
           </button>
         </div>
         
@@ -146,9 +149,9 @@
             @click="showHelp"
             class="w-full flex items-center p-4 hover:bg-gray-50 transition-colors duration-200"
           >
-            <FeatherIcon name="help-circle" size="20" class="text-gray-600 mr-3" />
+            <HelpCircleIcon size="20" class="text-gray-600 mr-3" />
             <span class="flex-1 text-left text-gray-900">Bantuan & Support</span>
-            <FeatherIcon name="chevron-right" size="16" class="text-gray-400" />
+            <ChevronRightIcon size="16" class="text-gray-400" />
           </button>
         </div>
         
@@ -157,9 +160,9 @@
             @click="logout"
             class="w-full flex items-center p-4 hover:bg-red-50 transition-colors duration-200"
           >
-            <FeatherIcon name="log-out" size="20" class="text-red-600 mr-3" />
+            <LogOutIcon size="20" class="text-red-600 mr-3" />
             <span class="flex-1 text-left text-red-600">Keluar</span>
-            <FeatherIcon name="chevron-right" size="16" class="text-red-400" />
+            <ChevronRightIcon size="16" class="text-red-400" />
           </button>
         </div>
       </div>
@@ -171,7 +174,7 @@
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xl font-semibold text-gray-900">Pengaturan</h3>
           <button @click="showSettings = false" class="p-2 hover:bg-gray-100 rounded-full">
-            <FeatherIcon name="x" size="24" class="text-gray-600" />
+            <XIcon size="24" class="text-gray-600" />
           </button>
         </div>
         
@@ -179,7 +182,7 @@
           <!-- Theme Settings -->
           <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
             <div class="flex items-center">
-              <FeatherIcon name="moon" size="20" class="text-gray-600 mr-3" />
+              <MoonIcon size="20" class="text-gray-600 mr-3" />
               <div>
                 <div class="font-medium text-gray-900">Mode Gelap</div>
                 <div class="text-sm text-gray-600">Tema gelap untuk mata</div>
@@ -195,7 +198,7 @@
           <!-- Notification Settings -->
           <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
             <div class="flex items-center">
-              <FeatherIcon name="bell" size="20" class="text-gray-600 mr-3" />
+              <BellIcon size="20" class="text-gray-600 mr-3" />
               <div>
                 <div class="font-medium text-gray-900">Notifikasi Push</div>
                 <div class="text-sm text-gray-600">Pengingat dan update</div>
@@ -211,7 +214,7 @@
           <!-- Data Usage -->
           <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
             <div class="flex items-center">
-              <FeatherIcon name="wifi" size="20" class="text-gray-600 mr-3" />
+              <WifiIcon size="20" class="text-gray-600 mr-3" />
               <div>
                 <div class="font-medium text-gray-900">Hemat Data</div>
                 <div class="text-sm text-gray-600">Kurangi penggunaan data</div>
@@ -273,7 +276,7 @@ const recentAchievements = ref([
     id: 1,
     title: 'Journal Streak Master',
     description: 'Journal 7 hari berturut-turut',
-    icon: 'fire',
+    icon: 'zap',
     bgColor: 'bg-orange-100',
     iconColor: 'text-orange-600',
     xp: 50

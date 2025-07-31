@@ -4,11 +4,11 @@
     <div class="safe-area-top bg-white shadow-sm">
       <div class="flex items-center justify-between p-4">
         <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="arrow-left" size="24" class="text-gray-600" />
+          <ArrowLeftIcon size="24" class="text-gray-600" />
         </button>
         <h1 class="text-xl font-semibold text-gray-900">Daily Journal</h1>
         <button @click="showHistory = true" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="calendar" size="24" class="text-gray-600" />
+          <CalendarIcon size="24" class="text-gray-600" />
         </button>
       </div>
     </div>
@@ -134,8 +134,8 @@
         class="btn-primary w-full flex items-center justify-center mb-20"
         :class="!canSave ? 'opacity-50 cursor-not-allowed' : ''"
       >
-        <FeatherIcon v-if="saving" name="loader" size="20" class="mr-2 animate-spin" />
-        <FeatherIcon v-else name="save" size="20" class="mr-2" />
+        <LoaderIcon v-if="saving" size="20" class="mr-2 animate-spin" />
+        <SaveIcon v-else size="20" class="mr-2" />
         {{ saving ? 'Menyimpan...' : 'Simpan Journal' }}
       </button>
     </div>
@@ -146,7 +146,7 @@
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xl font-semibold text-gray-900">Riwayat Journal</h3>
           <button @click="showHistory = false" class="p-2 hover:bg-gray-100 rounded-full">
-            <FeatherIcon name="x" size="24" class="text-gray-600" />
+            <XIcon size="24" class="text-gray-600" />
           </button>
         </div>
         
@@ -165,7 +165,7 @@
                   <div class="text-sm text-gray-600">{{ entry.title || 'Journal Entry' }}</div>
                 </div>
               </div>
-              <FeatherIcon name="chevron-right" size="16" class="text-gray-400" />
+              <ChevronRightIcon size="16" class="text-gray-400" />
             </div>
             <p class="text-sm text-gray-700 line-clamp-2">{{ entry.preview }}</p>
           </div>

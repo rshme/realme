@@ -4,11 +4,11 @@
     <div class="safe-area-top bg-white shadow-sm">
       <div class="flex items-center justify-between p-4">
         <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="arrow-left" size="24" class="text-gray-600" />
+          <ArrowLeftIcon size="24" class="text-gray-600" />
         </button>
         <h1 class="text-xl font-semibold text-gray-900">Learning Hub</h1>
         <button @click="showProgress = true" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="bar-chart-2" size="24" class="text-gray-600" />
+          <BarChart2Icon size="24" class="text-gray-600" />
         </button>
       </div>
     </div>
@@ -67,7 +67,11 @@
                   class="w-10 h-10 rounded-full flex items-center justify-center mr-3"
                   :class="getModuleIconStyle(module.category)"
                 >
-                  <FeatherIcon :name="getModuleIcon(module.category)" size="20" class="text-white" />
+                  <HeartIcon v-if="module.category === 'self-acceptance'" size="20" class="text-white" />
+                  <ZapIcon v-else-if="module.category === 'cbt'" size="20" class="text-white" />
+                  <UserIcon v-else-if="module.category === 'body-image'" size="20" class="text-white" />
+                  <SunIcon v-else-if="module.category === 'mindfulness'" size="20" class="text-white" />
+                  <BookIcon v-else size="20" class="text-white" />
                 </div>
                 <div>
                   <h4 class="font-semibold text-gray-900">{{ module.title }}</h4>
@@ -82,19 +86,19 @@
                 v-if="module.completed"
                 class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
               >
-                <FeatherIcon name="check" size="16" class="text-green-600" />
+                <CheckIcon size="16" class="text-green-600" />
               </div>
               <div 
                 v-else-if="module.inProgress"
                 class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center"
               >
-                <FeatherIcon name="play" size="16" class="text-yellow-600" />
+                <PlayIcon size="16" class="text-yellow-600" />
               </div>
               <div 
                 v-else
                 class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center"
               >
-                <FeatherIcon name="lock" size="16" class="text-gray-400" />
+                <LockIcon size="16" class="text-gray-400" />
               </div>
             </div>
           </div>
@@ -123,7 +127,7 @@
                 :key="topic"
                 class="flex items-center text-sm text-gray-600"
               >
-                <FeatherIcon name="check-circle" size="14" class="text-green-500 mr-2 flex-shrink-0" />
+                <CheckCircleIcon size="14" class="text-green-500 mr-2 flex-shrink-0" />
                 {{ topic }}
               </li>
             </ul>
@@ -136,11 +140,10 @@
             class="w-full py-3 px-4 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center"
             :class="getButtonStyle(module)"
           >
-            <FeatherIcon 
-              :name="getButtonIcon(module)" 
-              size="16" 
-              class="mr-2" 
-            />
+            <LockIcon v-if="module.locked" size="16" class="mr-2" />
+            <CheckCircleIcon v-else-if="module.completed" size="16" class="mr-2" />
+            <PlayIcon v-else-if="module.inProgress" size="16" class="mr-2" />
+            <PlayCircleIcon v-else size="16" class="mr-2" />
             {{ getButtonText(module) }}
           </button>
         </div>
@@ -153,7 +156,7 @@
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xl font-semibold text-gray-900">Detail Progress</h3>
           <button @click="showProgress = false" class="p-2 hover:bg-gray-100 rounded-full">
-            <FeatherIcon name="x" size="24" class="text-gray-600" />
+            <XIcon size="24" class="text-gray-600" />
           </button>
         </div>
         
@@ -340,7 +343,7 @@ const filteredModules = computed(() => {
 const getModuleIcon = (category) => {
   const icons = {
     'self-acceptance': 'heart',
-    'cbt': 'brain',
+    'cbt': 'zap',
     'body-image': 'user',
     'mindfulness': 'sun'
   }

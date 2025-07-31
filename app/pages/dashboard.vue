@@ -9,7 +9,7 @@
             <p class="text-sm text-gray-600">{{ currentDate }}</p>
           </div>
           <button @click="$router.push('/profile')" class="p-2 bg-purple-100 rounded-full">
-            <FeatherIcon name="user" size="24" class="text-purple-600" />
+            <UserIcon size="24" class="text-purple-600" />
           </button>
         </div>
       </div>
@@ -40,7 +40,7 @@
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center">
             <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
-              <FeatherIcon name="star" size="20" class="text-yellow-600" />
+              <StarIcon size="20" class="text-yellow-600" />
             </div>
             <div>
               <h3 class="font-semibold text-gray-900">Tantangan Hari Ini</h3>
@@ -62,8 +62,13 @@
           class="w-full py-3 px-4 rounded-xl font-medium transition-colors duration-200"
           :class="todayChallenge.completed ? 'bg-green-100 text-green-700' : 'bg-yellow-600 hover:bg-yellow-700 text-white'"
         >
-          <FeatherIcon 
-            :name="todayChallenge.completed ? 'check-circle' : 'play-circle'" 
+          <CheckCircleIcon 
+            v-if="todayChallenge.completed"
+            size="16" 
+            class="inline mr-2" 
+          />
+          <PlayCircleIcon 
+            v-else
             size="16" 
             class="inline mr-2" 
           />
@@ -78,7 +83,7 @@
       <div class="grid grid-cols-2 gap-3">
         <NuxtLink to="/journal" class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
           <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
-            <FeatherIcon name="book-open" size="20" class="text-blue-600" />
+            <BookOpenIcon size="20" class="text-blue-600" />
           </div>
           <h4 class="font-semibold text-gray-900 mb-1">Journal</h4>
           <p class="text-xs text-gray-600">Tulis perasaanmu</p>
@@ -86,7 +91,7 @@
         
         <NuxtLink to="/mood-tracker" class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
           <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-3">
-            <FeatherIcon name="smile" size="20" class="text-green-600" />
+            <SmileIcon size="20" class="text-green-600" />
           </div>
           <h4 class="font-semibold text-gray-900 mb-1">Mood</h4>
           <p class="text-xs text-gray-600">Pantau suasana hati</p>
@@ -94,7 +99,7 @@
         
         <NuxtLink to="/learning" class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
           <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mb-3">
-            <FeatherIcon name="book" size="20" class="text-purple-600" />
+            <BookIcon size="20" class="text-purple-600" />
           </div>
           <h4 class="font-semibold text-gray-900 mb-1">Belajar</h4>
           <p class="text-xs text-gray-600">Modul self-acceptance</p>
@@ -102,7 +107,7 @@
         
         <NuxtLink to="/community" class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
           <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mb-3">
-            <FeatherIcon name="users" size="20" class="text-pink-600" />
+            <UsersIcon size="20" class="text-pink-600" />
           </div>
           <h4 class="font-semibold text-gray-900 mb-1">Komunitas</h4>
           <p class="text-xs text-gray-600">Berbagi & support</p>
@@ -120,7 +125,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                <FeatherIcon name="edit-3" size="16" class="text-blue-600" />
+                <Edit3Icon size="16" class="text-blue-600" />
               </div>
               <div>
                 <div class="font-medium text-gray-900">Journal Streak</div>
@@ -134,7 +139,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                <FeatherIcon name="target" size="16" class="text-green-600" />
+                <TargetIcon size="16" class="text-green-600" />
               </div>
               <div>
                 <div class="font-medium text-gray-900">Target Mingguan</div>
@@ -153,7 +158,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                <FeatherIcon name="zap" size="16" class="text-purple-600" />
+                <ZapIcon size="16" class="text-purple-600" />
               </div>
               <div>
                 <div class="font-medium text-gray-900">Total XP</div>

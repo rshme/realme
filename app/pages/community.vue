@@ -4,11 +4,11 @@
     <div class="safe-area-top bg-white shadow-sm">
       <div class="flex items-center justify-between p-4">
         <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="arrow-left" size="24" class="text-gray-600" />
+          <ArrowLeftIcon size="24" class="text-gray-600" />
         </button>
         <h1 class="text-xl font-semibold text-gray-900">Safe Community</h1>
         <button @click="showCreatePost = true" class="p-2 bg-purple-100 hover:bg-purple-200 rounded-full">
-          <FeatherIcon name="plus" size="24" class="text-purple-600" />
+          <PlusIcon size="24" class="text-purple-600" />
         </button>
       </div>
     </div>
@@ -17,7 +17,7 @@
     <div class="px-6 py-4">
       <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
         <div class="flex items-start">
-          <FeatherIcon name="shield" size="20" class="text-blue-600 mr-3 mt-0.5" />
+          <ShieldIcon size="20" class="text-blue-600 mr-3 mt-0.5" />
           <div>
             <h3 class="font-semibold text-blue-900 mb-1">Komunitas yang Aman</h3>
             <p class="text-sm text-blue-700">
@@ -91,7 +91,7 @@
               class="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors duration-200"
               :class="post.isLiked ? 'text-red-500' : ''"
             >
-              <FeatherIcon :name="post.isLiked ? 'heart' : 'heart'" size="18" :class="post.isLiked ? 'fill-current' : ''" />
+              <HeartIcon size="18" :class="post.isLiked ? 'fill-current' : ''" />
               <span class="text-sm">{{ post.likes }}</span>
             </button>
             
@@ -99,7 +99,7 @@
               @click="showComments(post)"
               class="flex items-center space-x-2 text-gray-600 hover:text-blue-500 transition-colors duration-200"
             >
-              <FeatherIcon name="message-circle" size="18" />
+              <MessageCircleIcon size="18" />
               <span class="text-sm">{{ post.comments }}</span>
             </button>
             
@@ -107,13 +107,13 @@
               @click="sharePost(post)"
               class="flex items-center space-x-2 text-gray-600 hover:text-green-500 transition-colors duration-200"
             >
-              <FeatherIcon name="share-2" size="18" />
+              <Share2Icon size="18" />
               <span class="text-sm">Bagikan</span>
             </button>
           </div>
           
           <button class="text-gray-400 hover:text-gray-600">
-            <FeatherIcon name="more-horizontal" size="18" />
+            <MoreHorizontalIcon size="18" />
           </button>
         </div>
       </div>
@@ -125,7 +125,7 @@
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xl font-semibold text-gray-900">Buat Postingan</h3>
           <button @click="showCreatePost = false" class="p-2 hover:bg-gray-100 rounded-full">
-            <FeatherIcon name="x" size="24" class="text-gray-600" />
+            <XIcon size="24" class="text-gray-600" />
           </button>
         </div>
         
@@ -191,7 +191,7 @@
               class="btn-primary flex-1"
               :class="!newPost.content.trim() || !newPost.category ? 'opacity-50 cursor-not-allowed' : ''"
             >
-              <FeatherIcon name="send" size="16" class="mr-2" />
+              <SendIcon size="16" class="mr-2" />
               Posting
             </button>
           </div>
