@@ -38,7 +38,7 @@
     <!-- Learning Categories -->
     <div class="px-6 mb-4">
       <h3 class="text-lg font-semibold text-gray-900 mb-3">Kategori Pembelajaran</h3>
-      <div class="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide">
+      <div class="flex space-x-3 overflow-x-auto pb-2">
         <button 
           v-for="category in categories" 
           :key="category.id"
@@ -416,15 +416,5 @@ const openModule = (module) => {
   to {
     transform: translateY(0);
   }
-}
-
-/* Hide scrollbar for filter tabs */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Safari and Chrome */
 }
 </style>

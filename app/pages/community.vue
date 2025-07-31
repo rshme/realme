@@ -30,12 +30,12 @@
     
     <!-- Filter Tabs -->
     <div class="px-6 mb-4">
-      <div class="flex space-x-2">
+      <div class="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
         <button 
           v-for="filter in filters" 
           :key="filter.id"
           @click="activeFilter = filter.id"
-          class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
+          class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
           :class="activeFilter === filter.id ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-purple-50'"
         >
           {{ filter.label }}
@@ -200,32 +200,7 @@
     </div>
     
     <!-- Bottom Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-bottom">
-      <div class="max-w-md mx-auto px-6 py-3">
-        <div class="flex justify-around">
-          <NuxtLink to="/dashboard" class="flex flex-col items-center p-2 text-gray-400 hover:text-gray-600">
-            <FeatherIcon name="home" size="24" />
-            <span class="text-xs mt-1">Home</span>
-          </NuxtLink>
-          <NuxtLink to="/journal" class="flex flex-col items-center p-2 text-gray-400 hover:text-gray-600">
-            <FeatherIcon name="book-open" size="24" />
-            <span class="text-xs mt-1">Journal</span>
-          </NuxtLink>
-          <NuxtLink to="/community" class="flex flex-col items-center p-2 text-purple-600">
-            <FeatherIcon name="users" size="24" />
-            <span class="text-xs mt-1 font-medium">Komunitas</span>
-          </NuxtLink>
-          <NuxtLink to="/learning" class="flex flex-col items-center p-2 text-gray-400 hover:text-gray-600">
-            <FeatherIcon name="book" size="24" />
-            <span class="text-xs mt-1">Belajar</span>
-          </NuxtLink>
-          <NuxtLink to="/profile" class="flex flex-col items-center p-2 text-gray-400 hover:text-gray-600">
-            <FeatherIcon name="user" size="24" />
-            <span class="text-xs mt-1">Profil</span>
-          </NuxtLink>
-        </div>
-      </div>
-    </div>
+    <BottomNavigation />
   </div>
 </template>
 
@@ -397,5 +372,15 @@ const createPost = () => {
 
 .fill-current {
   fill: currentColor;
+}
+
+/* Hide scrollbar for filter tabs */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 </style>
