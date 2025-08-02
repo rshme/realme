@@ -250,8 +250,8 @@ const showSettings = ref(false)
 
 // User profile data
 const userProfile = reactive({
-  name: 'Rafi Septianhadi',
-  email: 'rafi@example.com',
+  name: 'Jane Poe',
+  email: 'jane@example.com',
   joinDate: '15 Juli 2025'
 })
 

@@ -329,8 +329,8 @@ const createPost = () => {
   const post = {
     id: posts.value.length + 1,
     author: { 
-      name: newPost.isAnonymous ? 'Anonim' : 'Rafi S.',
-      avatar: newPost.isAnonymous ? '?' : 'R'
+      name: newPost.isAnonymous ? 'Anonim' : 'Jane Poe',
+      avatar: newPost.isAnonymous ? '?' : 'JP'
     },
     timeAgo: 'Baru saja',
     category: newPost.category,

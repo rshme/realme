@@ -33,7 +33,66 @@
         </div>
       </div>
     </div>
-    
+
+    <!-- Daily Quote -->
+    <div class="px-6 mb-4">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-indigo-100 relative overflow-hidden">
+        
+        <div class="relative z-10">
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex items-center">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">Quotes Hari Ini</h3>
+                <p class="text-sm text-gray-600">Inspirasi untuk harimu</p>
+              </div>
+            </div>
+            <button 
+              @click="refreshQuote" 
+              class="p-2 bg-white/70 hover:bg-white rounded-full shadow-sm transition-all duration-200 hover:scale-105"
+            >
+              <svg class="w-5 h-5 text-indigo-600" :class="{ 'animate-spin': isRefreshingQuote }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="relative">
+            <!-- Quote mark decoration -->
+            <div class="absolute -top-2 -left-1 text-4xl text-indigo-200 font-serif">"</div>
+            
+            <blockquote class="text-gray-900 text-lg font-medium leading-relaxed mb-4 pl-6 pr-2">
+              {{ dailyQuote.text }}
+            </blockquote>
+            
+            <div class="flex items-center justify-between pl-6">
+              <cite class="text-sm text-indigo-600 font-semibold not-italic">
+                — {{ dailyQuote.author }}
+              </cite>
+              <div class="flex items-center space-x-2">
+                <button 
+                  @click="toggleFavoriteQuote"
+                  class="p-2 rounded-full hover:bg-indigo-100 transition-colors duration-200"
+                  :class="dailyQuote.isFavorite ? 'text-red-500' : 'text-gray-400'"
+                >
+                  <svg class="w-5 h-5" :fill="dailyQuote.isFavorite ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                </button>
+                <button 
+                  @click="shareQuote"
+                  class="p-2 rounded-full hover:bg-indigo-100 transition-colors duration-200 text-gray-400 hover:text-indigo-600"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Daily Challenge -->
     <div class="px-6 mb-4">
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
@@ -116,7 +175,7 @@
     </div>
     
     <!-- Progress Overview -->
-    <div class="px-6 mb-20">
+    <div class="px-6 pb-28">
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Progress Minggu Ini</h3>
         
@@ -188,7 +247,7 @@ useHead({
 })
 
 // Data user (simulasi)
-const userName = ref('Rafi')
+const userName = ref('Jane')
 const currentDate = computed(() => {
   const today = new Date()
   const options = { 
@@ -211,6 +270,46 @@ const quickMoods = [
 
 const selectedQuickMood = ref(null)
 
+// Daily quotes data
+const quotes = [
+  {
+    text: "Kamu tidak perlu menjadi sempurna. Kamu hanya perlu menjadi dirimu sendiri.",
+    author: "Unknown"
+  },
+  {
+    text: "Self-acceptance adalah kunci pertama menuju kebahagiaan yang sejati.",
+    author: "Unknown"  
+  },
+  {
+    text: "Cintai dirimu apa adanya, karena tidak ada yang bisa menggantikan keunikanmu.",
+    author: "Unknown"
+  },
+  {
+    text: "Setiap hari adalah kesempatan baru untuk menerima dan mencintai dirimu lebih dalam.",
+    author: "Unknown"
+  },
+  {
+    text: "Kamu sudah cukup, bahkan ketika kamu merasa belum sempurna.",
+    author: "Unknown"
+  },
+  {
+    text: "Perjalanan menerima diri sendiri dimulai dengan satu langkah kecil setiap hari.",
+    author: "Unknown"
+  },
+  {
+    text: "Jangan membandingkan chapter 1 hidupmu dengan chapter 20 orang lain.",
+    author: "Unknown"
+  }
+]
+
+const dailyQuote = reactive({
+  text: "",
+  author: "",
+  isFavorite: false
+})
+
+const isRefreshingQuote = ref(false)
+
 // Daily challenge
 const todayChallenge = reactive({
   title: '3 Hal yang Aku Sukai dari Diriku',
@@ -232,6 +331,52 @@ const selectQuickMood = (moodId) => {
   console.log('Mood selected:', moodId)
 }
 
+const getRandomQuote = () => {
+  const randomIndex = Math.floor(Math.random() * quotes.length)
+  const quote = quotes[randomIndex]
+  dailyQuote.text = quote.text
+  dailyQuote.author = quote.author
+  dailyQuote.isFavorite = false
+}
+
+const refreshQuote = async () => {
+  isRefreshingQuote.value = true
+  
+  // Simulate API call delay
+  await new Promise(resolve => setTimeout(resolve, 500))
+  
+  getRandomQuote()
+  isRefreshingQuote.value = false
+}
+
+const toggleFavoriteQuote = () => {
+  dailyQuote.isFavorite = !dailyQuote.isFavorite
+  
+  if (dailyQuote.isFavorite) {
+    // Could save to favorites list
+    console.log('Quote added to favorites')
+  } else {
+    console.log('Quote removed from favorites')
+  }
+}
+
+const shareQuote = () => {
+  const shareText = `"${dailyQuote.text}" - ${dailyQuote.author}`
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Quote Inspiratif dari RealMe',
+      text: shareText,
+      url: window.location.origin
+    })
+  } else {
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert('Quote berhasil disalin ke clipboard!')
+    })
+  }
+}
+
 const completeChallenge = () => {
   if (!todayChallenge.completed) {
     todayChallenge.completed = true
@@ -242,4 +387,7 @@ const completeChallenge = () => {
     alert('Selamat! Kamu mendapat +10 XP!')
   }
 }
+
+// Initialize daily quote when component mounts
+getRandomQuote()
 </script>
