@@ -8,20 +8,7 @@
         </button>
         <h1 class="text-xl font-semibold text-gray-900">Daily Journal</h1>
         <div class="flex space-x-1">
-          <button 
-            @click="activeTab = 'write'"
-            class="p-2 rounded-full transition-colors duration-200"
-            :class="activeTab === 'write' ? 'bg-purple-100 text-purple-600' : 'text-gray-600 hover:bg-gray-100'"
-          >
-            <EditIcon size="20" />
-          </button>
-          <button 
-            @click="activeTab = 'history'"
-            class="p-2 rounded-full transition-colors duration-200"
-            :class="activeTab === 'history' ? 'bg-purple-100 text-purple-600' : 'text-gray-600 hover:bg-gray-100'"
-          >
-            <CalendarIcon size="20" />
-          </button>
+          
         </div>
       </div>
     </div>
@@ -31,11 +18,11 @@
       <!-- Write Journal Tab -->
       <div v-if="activeTab === 'write'">
         <!-- Date & Streak -->
-        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 text-white mb-6">
+        <div class="rounded-2xl px-6 text-black mb-6">
           <div class="flex items-center justify-between">
             <div>
               <h2 class="text-lg font-semibold">{{ currentDate }}</h2>
-              <p class="text-white/80">Bagaimana harimu?</p>
+              <p class="text-black/80">Bagaimana harimu?</p>
             </div>
             <div class="text-center">
               <div class="text-2xl mb-1">🔥</div>
@@ -43,206 +30,184 @@
             </div>
           </div>
         </div>
-        
-        <!-- Mood Selection -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Bagaimana perasaanmu?</h3>
-          <div class="grid grid-cols-4 gap-3">
-            <button 
-              v-for="mood in detailedMoods" 
-              :key="mood.id"
-              @click="selectMood(mood.id)"
-              class="flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200"
-              :class="selectedMood === mood.id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'"
-            >
-              <span class="text-2xl mb-2">{{ mood.emoji }}</span>
-              <span class="text-xs font-medium text-gray-700">{{ mood.label }}</span>
-            </button>
+
+        <!-- CTA Button to Open Journal Modal -->
+        <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white mb-6 text-center">
+          <div class="mb-4">
+            <div class="text-4xl mb-2">📝</div>
+            <h3 class="text-xl font-bold mb-2">Saatnya Menulis Journal</h3>
+            <p class="text-white/80 text-sm mb-6">Refleksikan harimu dan catat momen-momen berharga</p>
           </div>
+          <button 
+            @click="showJournalModal = true"
+            class="bg-white text-purple-600 font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            <PenToolIcon size="18" class="inline mr-2" />
+            Ayo catat jurnalmu hari ini
+          </button>
         </div>
-        
-        <!-- Reflection Questions -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Refleksi Hari Ini</h3>
-          
-          <div class="space-y-4">
-            <div>
-              <label for="gratitude" class="block text-sm font-medium text-gray-700 mb-2">
-                Apa yang membuatmu bersyukur hari ini?
-              </label>
-              <textarea 
-                id="gratitude"
-                v-model="journal.gratitude"
-                class="input-field resize-none"
-                rows="3"
-                placeholder="Tulis minimal 1 hal yang membuatmu bersyukur..."
-              ></textarea>
-            </div>
-            
-            <div>
-              <label for="achievement" class="block text-sm font-medium text-gray-700 mb-2">
-                Pencapaian apa yang kamu raih hari ini? (sekecil apapun)
-              </label>
-              <textarea 
-                id="achievement"
-                v-model="journal.achievement"
-                class="input-field resize-none"
-                rows="3"
-                placeholder="Misal: Makan teratur, menyelesaikan tugas, membantu teman..."
-              ></textarea>
-            </div>
-            
-            <div>
-              <label for="selfLove" class="block text-sm font-medium text-gray-700 mb-2">
-                Apa yang kamu sukai dari dirimu hari ini?
-              </label>
-              <textarea 
-                id="selfLove"
-                v-model="journal.selfLove"
-                class="input-field resize-none"
-                rows="3"
-                placeholder="Fokus pada hal positif tentang dirimu..."
-              ></textarea>
-            </div>
-            
-            <div>
-              <label for="freeWrite" class="block text-sm font-medium text-gray-700 mb-2">
-                Cerita bebas tentang harimu
-              </label>
-              <textarea 
-                id="freeWrite"
-                v-model="journal.freeWrite"
-                class="input-field resize-none"
-                rows="4"
-                placeholder="Tulis apapun yang ingin kamu ceritakan..."
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Energy Level -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Level Energi</h3>
-          <div class="flex items-center space-x-4">
-            <span class="text-sm text-gray-600">Rendah</span>
-            <div class="flex-1">
-              <input 
-                v-model="journal.energyLevel"
-                type="range" 
-                min="1" 
-                max="10" 
-                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-              />
-              <div class="flex justify-between text-xs text-gray-500 mt-1">
-                <span>1</span>
-                <span>5</span>
-                <span>10</span>
+
+        <!-- Journal Writing Modal -->
+        <div v-if="showJournalModal" class="fixed inset-0 bg-black/50 flex items-end z-50">
+          <div class="bg-white w-full max-h-[90vh] rounded-t-3xl animate-slide-up overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-100 p-6 z-10">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                    <BookOpenIcon size="20" class="text-purple-600" />
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-semibold text-gray-900">Daily Journal</h3>
+                    <p class="text-sm text-gray-600">{{ currentDate }}</p>
+                  </div>
+                </div>
+                <button 
+                  @click="showJournalModal = false" 
+                  class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                >
+                  <XIcon size="24" class="text-gray-600" />
+                </button>
               </div>
             </div>
-            <span class="text-sm text-gray-600">Tinggi</span>
-          </div>
-          <div class="text-center mt-2">
-            <span class="text-lg font-semibold text-purple-600">{{ journal.energyLevel }}/10</span>
-          </div>
-        </div>
-        
-        <!-- Save Button -->
-        <button 
-          @click="saveJournal"
-          :disabled="!canSave || saving"
-          class="btn-primary w-full flex items-center justify-center mb-20"
-          :class="!canSave ? 'opacity-50 cursor-not-allowed' : ''"
-        >
-          <LoaderIcon v-if="saving" size="20" class="mr-2 animate-spin" />
-          <SaveIcon v-else size="20" class="mr-2" />
-          {{ saving ? 'Menyimpan...' : 'Simpan Journal' }}
-        </button>
-      </div>
 
-      <!-- History Tab -->
-      <div v-if="activeTab === 'history'">
-        <!-- Mood Chart -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Mood Tracker - 7 Hari Terakhir</h3>
-          
-          <!-- Bar Chart Container -->
-          <div class="relative h-48 mb-6">
-            <!-- Y-axis labels -->
-            <div class="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400 pr-3">
-              <span>😊 10</span>
-              <span>😐 5</span>
-              <span>😢 1</span>
-            </div>
-            
-            <!-- Chart area -->
-            <div class="py-1 ml-8 h-full flex items-end justify-between space-x-2">
-              <div 
-                v-for="(mood, index) in moodData" 
-                :key="index"
-                class="flex-1 flex flex-col justify-end items-center group cursor-pointer h-full"
-                @click="showDayDetail(weekDays[index].full, mood)"
-              >
-                <!-- Bar -->
-                <div 
-                  class="w-full relative rounded-t-lg transition-all duration-300 group-hover:scale-105"
-                  :style="`height: ${(mood / 10) * 100}%; background: linear-gradient(to top, ${getMoodColor(mood)}, ${getMoodColorLight(mood)})`"
-                >
-                  <!-- Mood value tooltip -->
-                  <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    {{ mood }}/10
+            <!-- Modal Content -->
+            <div class="p-6 pb-8">
+              <!-- Mood Selection -->
+              <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Bagaimana perasaanmu?</h3>
+                <div class="grid grid-cols-4 gap-3">
+                  <button 
+                    v-for="mood in detailedMoods" 
+                    :key="mood.id"
+                    @click="selectMood(mood.id)"
+                    class="flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200"
+                    :class="selectedMood === mood.id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'"
+                  >
+                    <span class="text-2xl mb-2">{{ mood.emoji }}</span>
+                    <span class="text-xs font-medium text-gray-700">{{ mood.label }}</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Reflection Questions -->
+              <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Refleksi Hari Ini</h3>
+                
+                <div class="space-y-4">
+                  <div>
+                    <label for="modal-gratitude" class="block text-sm font-medium text-gray-700 mb-2">
+                      Apa yang membuatmu bersyukur hari ini?
+                    </label>
+                    <textarea 
+                      id="modal-gratitude"
+                      v-model="journal.gratitude"
+                      class="input-field resize-none"
+                      rows="3"
+                      placeholder="Tulis minimal 1 hal yang membuatmu bersyukur..."
+                    ></textarea>
                   </div>
                   
-                  <!-- Mood emoji on bar -->
-                  <div class="absolute -top-1 left-1/2 transform -translate-x-1/2 text-lg">
-                    {{ getMoodEmojiByValue(mood) }}
+                  <div>
+                    <label for="modal-achievement" class="block text-sm font-medium text-gray-700 mb-2">
+                      Pencapaian apa yang kamu raih hari ini? (sekecil apapun)
+                    </label>
+                    <textarea 
+                      id="modal-achievement"
+                      v-model="journal.achievement"
+                      class="input-field resize-none"
+                      rows="3"
+                      placeholder="Misal: Makan teratur, menyelesaikan tugas, membantu teman..."
+                    ></textarea>
+                  </div>
+                  
+                  <div>
+                    <label for="modal-selfLove" class="block text-sm font-medium text-gray-700 mb-2">
+                      Apa yang kamu sukai dari dirimu hari ini?
+                    </label>
+                    <textarea 
+                      id="modal-selfLove"
+                      v-model="journal.selfLove"
+                      class="input-field resize-none"
+                      rows="3"
+                      placeholder="Fokus pada hal positif tentang dirimu..."
+                    ></textarea>
+                  </div>
+                  
+                  <div>
+                    <label for="modal-freeWrite" class="block text-sm font-medium text-gray-700 mb-2">
+                      Cerita bebas tentang harimu
+                    </label>
+                    <textarea 
+                      id="modal-freeWrite"
+                      v-model="journal.freeWrite"
+                      class="input-field resize-none"
+                      rows="4"
+                      placeholder="Tulis apapun yang ingin kamu ceritakan..."
+                    ></textarea>
                   </div>
                 </div>
-                
-                <!-- Day label -->
-                <div class="mt-3 text-xs font-medium text-gray-600">
-                  {{ weekDays[index].short }}
+              </div>
+              
+              <!-- Energy Level -->
+              <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Level Energi</h3>
+                <div class="flex items-center space-x-4">
+                  <span class="text-sm text-gray-600">Rendah</span>
+                  <div class="flex-1">
+                    <input 
+                      v-model="journal.energyLevel"
+                      type="range" 
+                      min="1" 
+                      max="10" 
+                      class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer energy-slider"
+                    />
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                      <span>1</span>
+                      <span>5</span>
+                      <span>10</span>
+                    </div>
+                  </div>
+                  <span class="text-sm text-gray-600">Tinggi</span>
+                </div>
+                <div class="text-center mt-2">
+                  <span class="text-lg font-semibold text-purple-600">{{ journal.energyLevel }}/10</span>
                 </div>
               </div>
-            </div>
-            
-            <!-- Grid lines -->
-            <div class="absolute inset-0 ml-8 pointer-events-none">
-              <div class="h-full flex flex-col justify-between">
-                <div class="border-t border-gray-100"></div>
-                <div class="border-t border-gray-100"></div>
-                <div class="border-t border-gray-100"></div>
-                <div class="border-t border-gray-200"></div>
+              
+              <!-- Action Buttons -->
+              <div class="flex gap-3">
+                <button 
+                  @click="showJournalModal = false"
+                  class="flex-1 py-3 px-4 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors duration-200"
+                >
+                  Tutup
+                </button>
+                <button 
+                  @click="saveJournal"
+                  :disabled="!canSave || saving"
+                  class="flex-2 py-3 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  :class="!canSave ? 'opacity-50 cursor-not-allowed transform-none' : ''"
+                >
+                  <LoaderIcon v-if="saving" size="18" class="inline mr-2 animate-spin" />
+                  <SaveIcon v-else size="18" class="inline mr-2" />
+                  {{ saving ? 'Menyimpan...' : 'Simpan Journal' }}
+                </button>
               </div>
-            </div>
-          </div>
-          
-          <!-- Mood Scale Legend -->
-          <div class="flex justify-center items-center space-x-6 text-xs text-gray-500">
-            <div class="flex items-center space-x-1">
-              <div class="w-3 h-3 rounded" style="background: linear-gradient(to top, #ef4444, #fca5a5)"></div>
-              <span>Sedih (1-3)</span>
-            </div>
-            <div class="flex items-center space-x-1">
-              <div class="w-3 h-3 rounded" style="background: linear-gradient(to top, #f59e0b, #fde047)"></div>
-              <span>Netral (4-6)</span>
-            </div>
-            <div class="flex items-center space-x-1">
-              <div class="w-3 h-3 rounded" style="background: linear-gradient(to top, #10b981, #86efac)"></div>
-              <span>Bahagia (7-10)</span>
             </div>
           </div>
         </div>
 
         <!-- Weekly Summary -->
         <div class="bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl p-6 text-white mb-6">
-          <h3 class="text-lg font-semibold mb-2">Ringkasan Minggu Ini</h3>
+          <h3 class="text-lg font-semibold mb-5">Ringkasan Minggu Ini</h3>
           <div class="grid grid-cols-2 gap-4">
             <div class="text-center">
-              <div class="text-2xl font-bold">{{ averageMood.toFixed(1) }}</div>
-              <div class="text-sm text-white/80">Rata-rata Mood</div>
+              <div class="text-2xl font-bold mb-1.5">{{ averageMood.toFixed(1) }}</div>
+              <div class="text-sm text-white/80">Rata-rata Level Energi</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold">{{ journalEntriesThisWeek }}</div>
+              <div class="text-2xl font-bold mb-1.5">{{ journalEntriesThisWeek }}</div>
               <div class="text-sm text-white/80">Jurnal Minggu Ini</div>
             </div>
           </div>
@@ -307,6 +272,7 @@ useHead({
 
 // Data
 const activeTab = ref('write')
+const showJournalModal = ref(false)
 const currentDate = computed(() => {
   const today = new Date()
   const options = { 
@@ -445,6 +411,9 @@ const saveJournal = async () => {
     // Simulasi API call
     await new Promise(resolve => setTimeout(resolve, 2000))
     
+    // Close modal
+    showJournalModal.value = false
+    
     // Reset form
     selectedMood.value = null
     Object.keys(journal).forEach(key => {
@@ -531,22 +500,67 @@ const showDayDetail = (day, mood) => {
   }
 }
 
-/* Custom scrollbar for chart area */
+/* Energy slider styles */
+.energy-slider {
+  background: linear-gradient(to right, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+}
+
+.energy-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid #8b5cf6;
+  transition: all 0.2s ease;
+}
+
+.energy-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+.energy-slider::-moz-range-thumb {
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid #8b5cf6;
+  transition: all 0.2s ease;
+}
+
+.energy-slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom scrollbar for modal */
 .overflow-y-auto::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 .overflow-y-auto::-webkit-scrollbar-track {
   background: #f1f5f9;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .flex-2 {
+    flex: 2;
+  }
 }
 </style>
