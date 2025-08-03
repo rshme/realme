@@ -43,7 +43,7 @@
           class="flex-1 py-3 px-4 rounded-lg font-medium text-sm transition-all duration-200"
           :class="activeTab === 'my-courses' ? 'bg-white text-purple-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'"
         >
-          <AcademicCapIcon size="18" class="inline mr-2" />
+          <LayersIcon size="18" class="inline mr-2" />
           My Courses
         </button>
         <button 
