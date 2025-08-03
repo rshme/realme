@@ -6,116 +6,328 @@
         <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
           <ArrowLeftIcon size="24" class="text-gray-600" />
         </button>
-        <h1 class="text-xl font-semibold text-gray-900">Safe Community</h1>
+        <h1 class="text-xl font-semibold text-gray-900">Community</h1>
         <button @click="showCreatePost = true" class="p-2 bg-purple-100 hover:bg-purple-200 rounded-full">
           <PlusIcon size="24" class="text-purple-600" />
         </button>
       </div>
     </div>
-    
-    <!-- Community Guidelines Banner -->
-    <div class="px-6 py-4">
-      <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
-        <div class="flex items-start">
-          <ShieldIcon size="20" class="text-blue-600 mr-3 mt-0.5" />
-          <div>
-            <h3 class="font-semibold text-blue-900 mb-1">Komunitas yang Aman</h3>
-            <p class="text-sm text-blue-700">
-              Berbagi dengan hormat, saling support, dan jaga privasi bersama.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Filter Tabs -->
-    <div class="px-6 mb-4">
-      <div class="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
+
+    <!-- Main Tabs -->
+    <div class="px-6 py-2">
+      <div class="flex space-x-1 bg-gray-100 rounded-xl p-1">
         <button 
-          v-for="filter in filters" 
-          :key="filter.id"
-          @click="activeFilter = filter.id"
-          class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
-          :class="activeFilter === filter.id ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-purple-50'"
+          @click="activeTab = 'all-posts'"
+          class="flex-1 py-3 px-4 rounded-lg font-medium text-sm transition-all duration-200"
+          :class="activeTab === 'all-posts' ? 'bg-white text-purple-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'"
         >
-          {{ filter.label }}
+          <UsersIcon size="18" class="inline mr-2" />
+          All Posts
+        </button>
+        <button 
+          @click="activeTab = 'safe-circle'"
+          class="flex-1 py-3 px-4 rounded-lg font-medium text-sm transition-all duration-200"
+          :class="activeTab === 'safe-circle' ? 'bg-white text-purple-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'"
+        >
+          <ShieldIcon size="18" class="inline mr-2" />
+          Safe Circle
         </button>
       </div>
     </div>
     
-    <!-- Posts Feed -->
-    <div class="px-6 space-y-4 mb-20">
-      <div 
-        v-for="post in filteredPosts" 
-        :key="post.id"
-        class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-      >
-        <!-- Post Header -->
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center mr-3">
-              <span class="text-white font-semibold">{{ post.author.avatar }}</span>
-            </div>
+    <!-- All Posts Tab Content -->
+    <div v-if="activeTab === 'all-posts'">
+      <!-- Community Guidelines Banner -->
+      <div class="px-6 py-4">
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+          <div class="flex items-start">
+            <ShieldIcon size="20" class="text-blue-600 mr-3 mt-0.5" />
             <div>
-              <div class="font-semibold text-gray-900">{{ post.author.name }}</div>
-              <div class="text-sm text-gray-500">{{ post.timeAgo }}</div>
+              <h3 class="font-semibold text-blue-900 mb-1">Komunitas yang Aman</h3>
+              <p class="text-sm text-blue-700">
+                Berbagi dengan hormat, saling support, dan jaga privasi bersama.
+              </p>
             </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span 
-              v-if="post.isAnonymous" 
-              class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
-            >
-              Anonim
-            </span>
-            <span 
-              class="px-2 py-1 text-xs rounded-full"
-              :class="getCategoryStyle(post.category)"
-            >
-              {{ post.category }}
-            </span>
-          </div>
         </div>
-        
-        <!-- Post Content -->
-        <div class="mb-4">
-          <h3 v-if="post.title" class="font-semibold text-gray-900 mb-2">{{ post.title }}</h3>
-          <p class="text-gray-700 leading-relaxed">{{ post.content }}</p>
-        </div>
-        
-        <!-- Post Actions -->
-        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-          <div class="flex items-center space-x-4">
-            <button 
-              @click="toggleLike(post.id)"
-              class="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors duration-200"
-              :class="post.isLiked ? 'text-red-500' : ''"
-            >
-              <HeartIcon size="18" :class="post.isLiked ? 'fill-current' : ''" />
-              <span class="text-sm">{{ post.likes }}</span>
-            </button>
-            
-            <button 
-              @click="showComments(post)"
-              class="flex items-center space-x-2 text-gray-600 hover:text-blue-500 transition-colors duration-200"
-            >
-              <MessageCircleIcon size="18" />
-              <span class="text-sm">{{ post.comments }}</span>
-            </button>
-            
-            <button 
-              @click="sharePost(post)"
-              class="flex items-center space-x-2 text-gray-600 hover:text-green-500 transition-colors duration-200"
-            >
-              <Share2Icon size="18" />
-              <span class="text-sm">Bagikan</span>
-            </button>
-          </div>
-          
-          <button class="text-gray-400 hover:text-gray-600">
-            <MoreHorizontalIcon size="18" />
+      </div>
+      
+      <!-- Filter Tabs -->
+      <div class="px-6 mb-4">
+        <div class="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
+          <button 
+            v-for="filter in filters" 
+            :key="filter.id"
+            @click="activeFilter = filter.id"
+            class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
+            :class="activeFilter === filter.id ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-purple-50'"
+          >
+            {{ filter.label }}
           </button>
         </div>
+      </div>
+      
+      <!-- Posts Feed -->
+      <div class="px-6 space-y-4 mb-20 pb-8">
+        <div 
+          v-for="post in filteredPosts" 
+          :key="post.id"
+          class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+        >
+          <!-- Post Header -->
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center mr-3">
+                <span class="text-white font-semibold">{{ post.author.avatar }}</span>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">{{ post.author.name }}</div>
+                <div class="text-sm text-gray-500">{{ post.timeAgo }}</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span 
+                v-if="post.isAnonymous" 
+                class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+              >
+                Anonim
+              </span>
+              <span 
+                class="px-2 py-1 text-xs rounded-full"
+                :class="getCategoryStyle(post.category)"
+              >
+                {{ post.category }}
+              </span>
+            </div>
+          </div>
+          
+          <!-- Post Content -->
+          <div class="mb-4">
+            <h3 v-if="post.title" class="font-semibold text-gray-900 mb-2">{{ post.title }}</h3>
+            <p class="text-gray-700 leading-relaxed">{{ post.content }}</p>
+          </div>
+          
+          <!-- Post Actions -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+            <div class="flex items-center space-x-4">
+              <button 
+                @click="toggleLike(post.id)"
+                class="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors duration-200"
+                :class="post.isLiked ? 'text-red-500' : ''"
+              >
+                <HeartIcon size="18" :class="post.isLiked ? 'fill-current' : ''" />
+                <span class="text-sm">{{ post.likes }}</span>
+              </button>
+              
+              <button 
+                @click="showComments(post)"
+                class="flex items-center space-x-2 text-gray-600 hover:text-blue-500 transition-colors duration-200"
+              >
+                <MessageCircleIcon size="18" />
+                <span class="text-sm">{{ post.comments }}</span>
+              </button>
+              
+              <button 
+                @click="sharePost(post)"
+                class="flex items-center space-x-2 text-gray-600 hover:text-green-500 transition-colors duration-200"
+              >
+                <Share2Icon size="18" />
+                <span class="text-sm">Bagikan</span>
+              </button>
+            </div>
+            
+            <button class="text-gray-400 hover:text-gray-600">
+              <MoreHorizontalIcon size="18" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Safe Circle Tab Content -->
+    <div v-if="activeTab === 'safe-circle'">
+      <!-- Safe Circle Header -->
+      <div class="px-6 py-4">
+        <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-4">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                <ShieldIcon size="20" class="text-green-600" />
+              </div>
+              <div>
+                <h3 class="font-semibold text-green-900 mb-1">Safe Circle</h3>
+                <p class="text-sm text-green-700">
+                  Grup kecil 3-5 orang untuk berbagi cerita personal dengan lebih intim dan aman.
+                </p>
+
+                <button 
+                  @click="showCreateCircle = true"
+                  class="px-4 py-2 mt-3 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors duration-200"
+                >
+                  <PlusIcon size="16" class="inline mr-1" />
+                  Buat Circle
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Circles -->
+      <div class="px-6 mb-6">
+        <h4 class="text-lg font-semibold text-gray-900 mb-4">Circle Saya</h4>
+        <div class="space-y-3">
+          <div 
+            v-for="circle in myCircles" 
+            :key="circle.id"
+            class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200 cursor-pointer"
+            @click="openCircle(circle)"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center mr-4">
+                  <UsersIcon size="20" class="text-white" />
+                </div>
+                <div>
+                  <h5 class="font-semibold text-gray-900">{{ circle.name }}</h5>
+                  <p class="text-sm text-gray-600">{{ circle.members.length }}/{{ circle.maxMembers }} anggota</p>
+                  <p class="text-xs text-gray-500">{{ circle.lastActivity }}</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <div class="flex -space-x-2 mr-3">
+                  <div 
+                    v-for="member in circle.members.slice(0, 3)" 
+                    :key="member.name"
+                    class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center border-2 border-white"
+                  >
+                    <span class="text-white text-xs font-semibold">{{ member.avatar }}</span>
+                  </div>
+                  <div 
+                    v-if="circle.members.length > 3"
+                    class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center border-2 border-white"
+                  >
+                    <span class="text-gray-600 text-xs">+{{ circle.members.length - 3 }}</span>
+                  </div>
+                </div>
+                <ChevronRightIcon size="16" class="text-gray-400" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Available Circles to Join -->
+      <div class="px-6 mb-20">
+        <h4 class="text-lg font-semibold text-gray-900 mb-4">Circle Terbuka</h4>
+        <div class="space-y-3">
+          <div 
+            v-for="circle in availableCircles" 
+            :key="circle.id"
+            class="bg-white rounded-xl p-4 shadow-sm border border-gray-100"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-start">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mr-4">
+                  <UsersIcon size="20" class="text-white" />
+                </div>
+                <div>
+                  <h5 class="font-semibold text-gray-900">{{ circle.name }}</h5>
+                  <p class="text-sm text-gray-600">{{ circle.description }}</p>
+                  <p class="text-xs text-gray-500">{{ circle.members.length }}/{{ circle.maxMembers }} anggota</p>
+
+                  <button 
+                    @click="joinCircle(circle.id)"
+                    class="px-4 py-2 mt-3 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                  >
+                    Gabung
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Create Circle Modal -->
+    <div v-if="showCreateCircle" class="fixed inset-0 bg-black/50 flex items-end z-50">
+      <div class="bg-white w-full max-h-[90vh] rounded-t-3xl p-6 animate-slide-up overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-semibold text-gray-900">Buat Safe Circle</h3>
+          <button @click="showCreateCircle = false" class="p-2 hover:bg-gray-100 rounded-full">
+            <XIcon size="24" class="text-gray-600" />
+          </button>
+        </div>
+        
+        <form @submit.prevent="createCircle" class="space-y-4">
+          <div>
+            <label for="circle-name" class="block text-sm font-medium text-gray-700 mb-2">Nama Circle</label>
+            <input 
+              id="circle-name"
+              v-model="newCircle.name"
+              type="text" 
+              required
+              class="input-field"
+              placeholder="Misal: Self-Love Journey, Body Positive Squad..."
+              maxlength="50"
+            />
+          </div>
+          
+          <div>
+            <label for="circle-description" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+            <textarea 
+              id="circle-description"
+              v-model="newCircle.description"
+              required
+              class="input-field resize-none"
+              rows="3"
+              placeholder="Jelaskan tujuan dan fokus circle ini..."
+              maxlength="200"
+            ></textarea>
+          </div>
+          
+          <div>
+            <label for="max-members" class="block text-sm font-medium text-gray-700 mb-2">Maksimal Anggota</label>
+            <select id="max-members" v-model="newCircle.maxMembers" required class="input-field">
+              <option value="3">3 orang</option>
+              <option value="4">4 orang</option>
+              <option value="5">5 orang</option>
+            </select>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input 
+                id="private-circle"
+                v-model="newCircle.isPrivate"
+                type="checkbox" 
+                class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+              />
+              <label for="private-circle" class="ml-2 text-sm text-gray-700">
+                Circle privat (hanya bisa bergabung dengan undangan)
+              </label>
+            </div>
+          </div>
+          
+          <div class="flex space-x-3 pt-4">
+            <button 
+              type="button"
+              @click="showCreateCircle = false"
+              class="btn-secondary flex-1"
+            >
+              Batal
+            </button>
+            <button 
+              type="submit"
+              :disabled="!newCircle.name.trim() || !newCircle.description.trim()"
+              class="btn-primary flex-1"
+              :class="!newCircle.name.trim() || !newCircle.description.trim() ? 'opacity-50 cursor-not-allowed' : ''"
+            >
+              Buat Circle
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     
@@ -131,8 +343,8 @@
         
         <form @submit.prevent="createPost" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
-            <select v-model="newPost.category" required class="input-field">
+            <label for="post-category" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+            <select id="post-category" v-model="newPost.category" required class="input-field">
               <option value="">Pilih kategori</option>
               <option value="Self-Acceptance">Self-Acceptance</option>
               <option value="Body Image">Body Image</option>
@@ -143,8 +355,9 @@
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Judul (Opsional)</label>
+            <label for="post-title" class="block text-sm font-medium text-gray-700 mb-2">Judul (Opsional)</label>
             <input 
+              id="post-title"
               v-model="newPost.title"
               type="text" 
               class="input-field"
@@ -153,8 +366,9 @@
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Ceritakan pengalamanmu</label>
+            <label for="post-content" class="block text-sm font-medium text-gray-700 mb-2">Ceritakan pengalamanmu</label>
             <textarea 
+              id="post-content"
               v-model="newPost.content"
               required
               class="input-field resize-none"
@@ -191,8 +405,10 @@
               class="btn-primary flex-1"
               :class="!newPost.content.trim() || !newPost.category ? 'opacity-50 cursor-not-allowed' : ''"
             >
-              <SendIcon size="16" class="mr-2" />
-              Posting
+              <div class="w-full flex justify-center items-center">
+                <SendIcon size="16" class="mr-2" />
+                <span class="inline">Posting</span>
+              </div>
             </button>
           </div>
         </form>
@@ -205,14 +421,29 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 
-// Meta untuk halaman community
+// Page meta
 useHead({
-  title: 'Safe Community - RealMe',
-  meta: [
-    { name: 'description', content: 'Bergabung dengan komunitas yang aman dan supportif. Berbagi cerita dan dapatkan dukungan dari teman sebaya.' }
-  ]
+  title: 'Community - RealMe'
+})
+
+// Reactive data
+const activeTab = ref('all-posts')
+const showCreateModal = ref(false)
+const showCreateCircle = ref(false)
+const activeFilter = ref('all')
+const showCreatePost = ref(false)
+const newPost = ref({
+  title: '',
+  content: '',
+  category: 'sharing',
+  isAnonymous: false
+})
+const newCircle = ref({
+  name: '',
+  description: '',
+  maxMembers: 5
 })
 
 // Filters
@@ -224,10 +455,7 @@ const filters = [
   { id: 'motivasi', label: 'Motivasi' }
 ]
 
-const activeFilter = ref('all')
-const showCreatePost = ref(false)
-
-// Sample posts data
+// Sample posts
 const posts = ref([
   {
     id: 1,
@@ -277,13 +505,47 @@ const posts = ref([
   }
 ])
 
-// New post form
-const newPost = reactive({
-  category: '',
-  title: '',
-  content: '',
-  isAnonymous: false
-})
+// Safe Circle data
+const myCircles = ref([
+  {
+    id: 1,
+    name: 'College Support',
+    members: [
+      { name: 'You', avatar: 'Y', isYou: true },
+      { name: 'Anna', avatar: 'AN' },
+      { name: 'Mike', avatar: 'MK' },
+      { name: 'Lisa', avatar: 'LS' }
+    ],
+    lastActivity: '2 jam lalu'
+  },
+  {
+    id: 2,
+    name: 'Anxiety Warriors',
+    members: [
+      { name: 'You', avatar: 'Y', isYou: true },
+      { name: 'Sarah', avatar: 'SR' },
+      { name: 'David', avatar: 'DV' }
+    ],
+    lastActivity: '1 hari lalu'
+  }
+])
+
+const availableCircles = ref([
+  {
+    id: 3,
+    name: 'New Parent Support',
+    description: 'Safe space untuk parents baru berbagi pengalaman',
+    members: 3,
+    maxMembers: 5
+  },
+  {
+    id: 4,
+    name: 'Career Transition',
+    description: 'Dukungan untuk yang sedang career change',
+    members: 2,
+    maxMembers: 4
+  }
+])
 
 // Computed
 const filteredPosts = computed(() => {
@@ -294,15 +556,102 @@ const filteredPosts = computed(() => {
 })
 
 // Methods
-const getCategoryStyle = (category) => {
-  const styles = {
-    'Self-Acceptance': 'bg-purple-100 text-purple-700',
-    'Body Image': 'bg-pink-100 text-pink-700',
-    'Mental Health': 'bg-blue-100 text-blue-700',
-    'Motivasi': 'bg-green-100 text-green-700',
-    'Curhat': 'bg-orange-100 text-orange-700'
+const switchTab = (tabId) => {
+  activeTab.value = tabId
+}
+
+const openCreateModal = () => {
+  showCreateModal.value = true
+}
+
+const closeCreateModal = () => {
+  showCreateModal.value = false
+  resetForm()
+}
+
+const openCreateCircleModal = () => {
+  showCreateCircle.value = true
+}
+
+const closeCreateCircleModal = () => {
+  showCreateCircle.value = false
+  resetCircleForm()
+}
+
+const resetForm = () => {
+  newPost.value = {
+    title: '',
+    content: '',
+    category: 'sharing',
+    isAnonymous: false
   }
-  return styles[category] || 'bg-gray-100 text-gray-700'
+}
+
+const resetCircleForm = () => {
+  newCircle.value = {
+    name: '',
+    description: '',
+    maxMembers: 5
+  }
+}
+
+const createPost = () => {
+  if (!newPost.value.content.trim()) return
+  
+  const post = {
+    id: Date.now(),
+    title: newPost.value.title,
+    content: newPost.value.content,
+    author: {
+      name: newPost.value.isAnonymous ? 'Anonim' : 'Jane Poe',
+      avatar: newPost.value.isAnonymous ? '?' : 'JP'
+    },
+    category: newPost.value.category,
+    timeAgo: 'Baru saja',
+    likes: 0,
+    comments: 0,
+    isLiked: false,
+    isAnonymous: newPost.value.isAnonymous
+  }
+  
+  posts.value.unshift(post)
+  closeCreateModal()
+  showCreatePost.value = false
+}
+
+const createCircle = () => {
+  if (!newCircle.value.name.trim() || !newCircle.value.description.trim()) return
+  
+  const circle = {
+    id: Date.now(),
+    name: newCircle.value.name,
+    members: [
+      { name: 'You', avatar: 'Y', isYou: true }
+    ],
+    lastActivity: 'Baru dibuat'
+  }
+  
+  myCircles.value.unshift(circle)
+  closeCreateCircleModal()
+}
+
+const joinCircle = (circleId) => {
+  const circle = availableCircles.value.find(c => c.id === circleId)
+  if (circle && circle.members < circle.maxMembers) {
+    // Move to my circles
+    const newCircle = {
+      id: circle.id,
+      name: circle.name,
+      members: [
+        { name: 'You', avatar: 'Y', isYou: true }
+      ],
+      lastActivity: 'Baru bergabung'
+    }
+    
+    myCircles.value.push(newCircle)
+    // Remove from available circles
+    availableCircles.value = availableCircles.value.filter(c => c.id !== circleId)
+  }
 }
 
 const toggleLike = (postId) => {
@@ -314,45 +663,28 @@ const toggleLike = (postId) => {
 }
 
 const showComments = (post) => {
-  // Navigate to comments page
   console.log('Show comments for post:', post.id)
 }
 
 const sharePost = (post) => {
-  // Share functionality
   console.log('Share post:', post.id)
   alert('Link postingan disalin ke clipboard!')
 }
 
-const createPost = () => {
-  // Create new post
-  const post = {
-    id: posts.value.length + 1,
-    author: { 
-      name: newPost.isAnonymous ? 'Anonim' : 'Jane Poe',
-      avatar: newPost.isAnonymous ? '?' : 'JP'
-    },
-    timeAgo: 'Baru saja',
-    category: newPost.category,
-    title: newPost.title,
-    content: newPost.content,
-    isAnonymous: newPost.isAnonymous,
-    likes: 0,
-    comments: 0,
-    isLiked: false
+const openCircle = (circle) => {
+  // Navigate to group chat page with circle information
+  navigateTo(`/circle-chat/${circle.id}?name=${encodeURIComponent(circle.name)}`)
+}
+
+const getCategoryStyle = (category) => {
+  const styles = {
+    'Self-Acceptance': 'bg-purple-100 text-purple-700',
+    'Body Image': 'bg-pink-100 text-pink-700',
+    'Mental Health': 'bg-blue-100 text-blue-700',
+    'Motivasi': 'bg-green-100 text-green-700',
+    'Curhat': 'bg-orange-100 text-orange-700'
   }
-  
-  posts.value.unshift(post)
-  
-  // Reset form
-  newPost.category = ''
-  newPost.title = ''
-  newPost.content = ''
-  newPost.isAnonymous = false
-  
-  showCreatePost.value = false
-  
-  alert('Postingan berhasil dibuat! +5 XP')
+  return styles[category] || 'bg-gray-100 text-gray-700'
 }
 </script>
 
