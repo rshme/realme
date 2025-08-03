@@ -12,7 +12,7 @@
       
       <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-8">
         <p class="text-white text-center leading-relaxed">
-          Aplikasi peer support untuk meningkatkan self-acceptance remaja Indonesia. 
+          Aplikasi peer support untuk meningkatkan self-acceptance individu Indonesia. 
           Mulai perjalanan mencintai diri sendiri bersama komunitas yang mendukung.
         </p>
       </div>
@@ -83,7 +83,7 @@
 useHead({
   title: 'RealMe - Aplikasi Peer Support untuk Self-Acceptance',
   meta: [
-    { name: 'description', content: 'Aplikasi peer support untuk meningkatkan self-acceptance remaja Indonesia. Mulai perjalanan mencintai diri sendiri.' }
+    { name: 'description', content: 'Aplikasi peer support untuk meningkatkan self-acceptance individu Indonesia. Mulai perjalanan mencintai diri sendiri.' }
   ]
 })
 </script>
