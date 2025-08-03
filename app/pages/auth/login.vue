@@ -4,7 +4,7 @@
     <div class="safe-area-top bg-white shadow-sm">
       <div class="flex items-center justify-between p-4">
         <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
-          <FeatherIcon name="arrow-left" size="24" class="text-gray-600" />
+          <ArrowLeftIcon size="24" class="text-gray-600" />
         </button>
         <h1 class="text-xl font-semibold text-gray-900">Masuk Akun</h1>
         <div class="w-10"></div>
@@ -16,7 +16,7 @@
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
         <div class="text-center mb-8">
           <div class="w-20 h-20 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
-            <FeatherIcon name="log-in" size="32" class="text-purple-600" />
+            <LogInIcon size="32" class="text-purple-600" />
           </div>
           <h2 class="text-2xl font-bold text-gray-900 mb-2">Selamat Datang Kembali</h2>
           <p class="text-gray-600">Masuk dan lanjutkan perjalanan self-acceptance mu</p>
@@ -51,7 +51,12 @@
                 @click="showPassword = !showPassword"
                 class="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
               >
-                <FeatherIcon :name="showPassword ? 'eye-off' : 'eye'" size="20" />
+                <div v-if="showPassword">
+                  <EyeOffIcon v-show="showPassword" size="20"/>
+                </div>
+                <div v-else>
+                  <EyeIcon v-show="!showPassword" size="20"/>
+                </div>
               </button>
             </div>
           </div>
@@ -79,8 +84,8 @@
             :disabled="loading"
             class="btn-primary w-full flex items-center justify-center"
           >
-            <FeatherIcon v-if="loading" name="loader" size="20" class="mr-2 animate-spin" />
-            <FeatherIcon v-else name="log-in" size="20" class="mr-2" />
+            <LoaderIcon v-if="loading" size="20" class="mr-2 animate-spin" />
+            <LogInIcon v-else size="20" class="mr-2" />
             {{ loading ? 'Masuk...' : 'Masuk Akun' }}
           </button>
         </form>

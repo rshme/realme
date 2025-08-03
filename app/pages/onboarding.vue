@@ -21,7 +21,7 @@
       <!-- Step 1: Welcome -->
       <div v-if="currentStep === 1" class="text-center">
         <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
-          <FeatherIcon name="heart" size="48" class="text-white" />
+          <HeartIcon size="48" class="text-white" />
         </div>
         <h1 class="text-3xl font-bold text-gray-900 mb-4">Selamat Datang di RealMe!</h1>
         <p class="text-gray-600 text-lg leading-relaxed mb-8">
@@ -31,7 +31,7 @@
         <div class="space-y-4">
           <div class="bg-white rounded-xl p-4 border border-gray-100">
             <div class="flex items-center">
-              <FeatherIcon name="shield" size="24" class="text-green-600 mr-3" />
+              <ShieldIcon name="shield" size="24" class="text-green-600 mr-3" />
               <div class="text-left">
                 <h3 class="font-semibold text-gray-900">Aman & Privat</h3>
                 <p class="text-sm text-gray-600">Data pribadimu terlindungi</p>
@@ -40,7 +40,7 @@
           </div>
           <div class="bg-white rounded-xl p-4 border border-gray-100">
             <div class="flex items-center">
-              <FeatherIcon name="users" size="24" class="text-blue-600 mr-3" />
+              <UsersIcon name="users" size="24" class="text-blue-600 mr-3" />
               <div class="text-left">
                 <h3 class="font-semibold text-gray-900">Komunitas Supportif</h3>
                 <p class="text-sm text-gray-600">Berbagi dengan teman sebaya</p>
@@ -49,7 +49,7 @@
           </div>
           <div class="bg-white rounded-xl p-4 border border-gray-100">
             <div class="flex items-center">
-              <FeatherIcon name="trending-up" size="24" class="text-purple-600 mr-3" />
+              <TrendingUpIcon size="24" class="text-purple-600 mr-3" />
               <div class="text-left">
                 <h3 class="font-semibold text-gray-900">Progress Tracking</h3>
                 <p class="text-sm text-gray-600">Pantau perkembangan dirimu</p>
@@ -62,7 +62,7 @@
       <!-- Step 2: Goals -->
       <div v-if="currentStep === 2" class="text-center">
         <div class="w-24 h-24 mx-auto mb-6 bg-purple-100 rounded-full flex items-center justify-center">
-          <FeatherIcon name="target" size="32" class="text-purple-600" />
+          <TargetIcon size="32" class="text-purple-600" />
         </div>
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Apa tujuan utamamu?</h2>
         <p class="text-gray-600 mb-8">Pilih yang paling sesuai dengan kondisimu saat ini</p>
@@ -76,7 +76,7 @@
             :class="selectedGoal === goal.id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'"
           >
             <div class="flex items-center">
-              <FeatherIcon :name="goal.icon" size="24" class="mr-3" :class="selectedGoal === goal.id ? 'text-purple-600' : 'text-gray-600'" />
+              <CheckCircleIcon :name="goal.icon" size="24" class="mr-3" :class="selectedGoal === goal.id ? 'text-purple-600' : 'text-gray-600'" />
               <div>
                 <h3 class="font-semibold text-gray-900">{{ goal.title }}</h3>
                 <p class="text-sm text-gray-600">{{ goal.description }}</p>
@@ -89,7 +89,7 @@
       <!-- Step 3: Mood Check -->
       <div v-if="currentStep === 3" class="text-center">
         <div class="w-24 h-24 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
-          <FeatherIcon name="smile" size="32" class="text-blue-600" />
+          <SmileIcon size="32" class="text-blue-600" />
         </div>
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Bagaimana perasaanmu hari ini?</h2>
         <p class="text-gray-600 mb-8">Ini akan membantu kami memberikan konten yang tepat</p>
@@ -111,7 +111,7 @@
       <!-- Step 4: Notifications -->
       <div v-if="currentStep === 4" class="text-center">
         <div class="w-24 h-24 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-          <FeatherIcon name="bell" size="32" class="text-green-600" />
+          <BellIcon size="32" class="text-green-600" />
         </div>
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Tetap terhubung</h2>
         <p class="text-gray-600 mb-8">Kami akan mengingatkanmu untuk journaling dan refleksi harian</p>
@@ -120,7 +120,7 @@
           <div class="bg-white rounded-xl p-4 border border-gray-100">
             <div class="flex items-center justify-between">
               <div class="flex items-center text-left">
-                <FeatherIcon name="sunrise" size="24" class="text-orange-500 mr-3" />
+                <SunriseIcon size="24" class="text-orange-500 mr-3" />
                 <div>
                   <h3 class="font-semibold text-gray-900">Pengingat Pagi</h3>
                   <p class="text-sm text-gray-600">Mulai hari dengan afirmasi positif</p>
@@ -137,7 +137,7 @@
           <div class="bg-white rounded-xl p-4 border border-gray-100">
             <div class="flex items-center justify-between">
               <div class="flex items-center text-left">
-                <FeatherIcon name="moon" size="24" class="text-blue-500 mr-3" />
+                <MoonIcon size="24" class="text-blue-500 mr-3" />
                 <div>
                   <h3 class="font-semibold text-gray-900">Pengingat Malam</h3>
                   <p class="text-sm text-gray-600">Refleksi hari dan journaling</p>
@@ -154,7 +154,7 @@
           <div class="bg-white rounded-xl p-4 border border-gray-100">
             <div class="flex items-center justify-between">
               <div class="flex items-center text-left">
-                <FeatherIcon name="award" size="24" class="text-purple-500 mr-3" />
+                <AwardIcon size="24" class="text-purple-500 mr-3" />
                 <div>
                   <h3 class="font-semibold text-gray-900">Tantangan Harian</h3>
                   <p class="text-sm text-gray-600">Daily challenges untuk self-acceptance</p>
@@ -179,7 +179,7 @@
           @click="previousStep"
           class="btn-secondary flex items-center"
         >
-          <FeatherIcon name="arrow-left" size="16" class="mr-2" />
+          <ArrowLeftIcon size="16" class="mr-2" />
           Kembali
         </button>
         <div v-else></div>
@@ -191,7 +191,7 @@
           :class="!canProceed ? 'opacity-50 cursor-not-allowed' : ''"
         >
           {{ currentStep === totalSteps ? 'Mulai Perjalanan' : 'Lanjut' }}
-          <FeatherIcon name="arrow-right" size="16" class="ml-2" />
+          <ArrowRightIcon size="16" class="ml-2" />
         </button>
       </div>
     </div>
