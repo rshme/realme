@@ -229,7 +229,7 @@
       </div>
       
       <!-- Learning Modules -->
-      <div class="px-6 space-y-4 mb-20">
+      <div class="px-6 space-y-4 mb-20 pb-6">
         <div 
           v-for="module in filteredModules" 
           :key="module.id"
