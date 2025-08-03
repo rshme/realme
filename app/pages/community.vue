@@ -2,14 +2,15 @@
   <div class="min-h-screen bg-gray-50">
     <!-- Header -->
     <div class="safe-area-top bg-white shadow-sm">
-      <div class="flex items-center justify-between p-4">
-        <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
+      <div class="flex items-center justify-start p-4">
+        <div class="w-4/12">
+          <button @click="$router.back()" class="p-2 hover:bg-gray-100 rounded-full">
           <ArrowLeftIcon size="24" class="text-gray-600" />
-        </button>
-        <h1 class="text-xl font-semibold text-gray-900">Community</h1>
-        <button @click="showCreatePost = true" class="p-2 bg-purple-100 hover:bg-purple-200 rounded-full">
-          <PlusIcon size="24" class="text-purple-600" />
-        </button>
+          </button>
+        </div>
+        <div class="w-8/12">
+          <h1 class="text-xl font-semibold text-gray-900">Community</h1>
+        </div>
       </div>
     </div>
 
@@ -50,6 +51,17 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- CTA Button to Open Journal Modal -->
+      <div class="flex justify-center px-6 py-2 mb-6">
+        <button 
+            @click="showCreatePost = true"
+            class="bg-purple-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            <PenToolIcon size="18" class="inline mr-2" />
+            Buat postinganmu hari ini
+          </button>
       </div>
       
       <!-- Filter Tabs -->
