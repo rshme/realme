@@ -290,6 +290,95 @@
         </div>
       </div>
     </div>
+
+    <!-- Wellness Insight Section -->
+    <div class="px-6 mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-3">Insight Kesehatan Mental</h3>
+      <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-5 border border-blue-200">
+        <div class="flex items-start">
+          <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-gray-900 mb-2">{{ currentInsight.title }}</h4>
+            <p class="text-gray-700 text-sm leading-relaxed mb-3">{{ currentInsight.description }}</p>
+            <div class="flex items-center text-xs text-blue-700">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Berdasarkan aktivitas 7 hari terakhir</span>
+            </div>
+            <!-- Insight Actions -->
+            <div class="mt-4 flex flex-wrap gap-2">
+              <button 
+                v-for="action in currentInsight.actions" 
+                :key="action.id"
+                @click="performInsightAction(action.id)"
+                class="flex items-center px-3 py-2 bg-white/70 backdrop-blur-sm rounded-lg text-sm font-medium text-blue-700 hover:bg-white/90 transition-all duration-200"
+              >
+                <component :is="action.icon" size="16" class="mr-2" />
+                {{ action.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goals & Preferences Section -->
+    <div class="px-6 mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-semibold text-gray-900">Goals & Preferensi</h3>
+        <button 
+          @click="editGoals"
+          class="text-purple-600 text-sm font-medium hover:text-purple-700 transition-colors duration-200"
+        >
+          Edit
+        </button>
+      </div>
+      
+      <!-- Current Goals -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+          <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Target Bulanan
+        </h4>
+        <div class="space-y-3">
+          <div 
+            v-for="goal in currentGoals" 
+            :key="goal.id"
+            class="flex items-center justify-between p-3 bg-gray-50 rounded-xl"
+          >
+            <div class="flex items-center flex-1">
+              <div 
+                class="w-8 h-8 rounded-full flex items-center justify-center mr-3"
+                :class="goal.iconBg"
+              >
+                <component :is="goal.icon" size="16" :class="goal.iconColor" />
+              </div>
+              <div class="flex-1">
+                <div class="font-medium text-gray-900">{{ goal.title }}</div>
+                <div class="text-sm text-gray-600">{{ goal.current }}/{{ goal.target }} {{ goal.unit }}</div>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-16 h-2 bg-gray-200 rounded-full mr-3">
+                <div 
+                  class="h-2 rounded-full transition-all duration-300"
+                  :class="goal.progressColor"
+                  :style="{ width: Math.min((goal.current / goal.target) * 100, 100) + '%' }"
+                ></div>
+              </div>
+              <span class="text-sm font-semibold text-gray-700">{{ Math.round((goal.current / goal.target) * 100) }}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- Quick Actions -->
     <div class="px-6 mb-20 pb-6">
@@ -531,6 +620,123 @@ const recentAchievements = ref([
   }
 ])
 
+// Wellness insight data
+const currentInsight = ref({
+  title: 'Mood Stabil & Positif',
+  description: 'Mood kamu menunjukkan tren positif minggu ini! Konsistensi dalam journaling dan aktivitas self-care memberikan dampak baik pada kesehatan mental kamu.',
+  actions: [
+    {
+      id: 'journal',
+      label: 'Lanjut Journal',
+      icon: 'Edit3Icon'
+    },
+    {
+      id: 'meditation',
+      label: 'Meditasi',
+      icon: 'ZapIcon'
+    },
+    {
+      id: 'community',
+      label: 'Share di Komunitas',
+      icon: 'HeartIcon'
+    }
+  ]
+})
+
+// Current goals data
+const currentGoals = ref([
+  {
+    id: 1,
+    title: 'Journaling Harian',
+    current: 18,
+    target: 30,
+    unit: 'hari',
+    icon: 'Edit3Icon',
+    iconBg: 'bg-blue-100',
+    iconColor: 'text-blue-600',
+    progressColor: 'bg-blue-500'
+  },
+  {
+    id: 2,
+    title: 'Mood Tracking',
+    current: 22,
+    target: 30,
+    unit: 'hari',
+    icon: 'HeartIcon',
+    iconBg: 'bg-pink-100',
+    iconColor: 'text-pink-600',
+    progressColor: 'bg-pink-500'
+  },
+  {
+    id: 3,
+    title: 'Modul Learning',
+    current: 2,
+    target: 4,
+    unit: 'modul',
+    icon: 'BookIcon',
+    iconBg: 'bg-green-100',
+    iconColor: 'text-green-600',
+    progressColor: 'bg-green-500'
+  },
+  {
+    id: 4,
+    title: 'Community Support',
+    current: 7,
+    target: 15,
+    unit: 'interaksi',
+    icon: 'UserIcon',
+    iconBg: 'bg-purple-100',
+    iconColor: 'text-purple-600',
+    progressColor: 'bg-purple-500'
+  }
+])
+
+// User preferences data
+const userPreferences = ref([
+  {
+    id: 1,
+    title: 'Morning Person',
+    subtitle: 'Aktivitas pagi',
+    icon: 'SunIcon',
+    active: true
+  },
+  {
+    id: 2,
+    title: 'Mindfulness',
+    subtitle: 'Fokus & tenang',
+    icon: 'ZapIcon',
+    active: true
+  },
+  {
+    id: 3,
+    title: 'Social Support',
+    subtitle: 'Dukungan sosial',
+    icon: 'UsersIcon',
+    active: false
+  },
+  {
+    id: 4,
+    title: 'Creative Expression',
+    subtitle: 'Ekspresi kreatif',
+    icon: 'Edit3Icon',
+    active: true
+  },
+  {
+    id: 5,
+    title: 'Physical Activity',
+    subtitle: 'Aktivitas fisik',
+    icon: 'ZapIcon',
+    active: false
+  },
+  {
+    id: 6,
+    title: 'Reading & Learning',
+    subtitle: 'Belajar & membaca',
+    icon: 'BookIcon',
+    active: true
+  }
+])
+
 // Computed
 const userInitials = computed(() => {
   return userProfile.name
@@ -619,6 +825,31 @@ const exportData = () => {
 const showHelp = () => {
   console.log('Show help')
   // Navigate to help page
+}
+
+const performInsightAction = (actionId) => {
+  console.log('Performing insight action:', actionId)
+  
+  switch (actionId) {
+    case 'journal':
+      navigateTo('/journal')
+      break
+    case 'meditation':
+      console.log('Starting meditation session')
+      alert('Fitur meditasi akan segera hadir!')
+      break
+    case 'community':
+      navigateTo('/community')
+      break
+    default:
+      console.log('Unknown action:', actionId)
+  }
+}
+
+const editGoals = () => {
+  console.log('Edit goals')
+  alert('Fitur edit goals akan segera hadir!')
+  // Navigate to goals editing page or show modal
 }
 
 const logout = async () => {
