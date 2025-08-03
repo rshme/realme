@@ -215,7 +215,7 @@
         
         <!-- Journal History -->
         <div class="space-y-4 mb-20">
-          <h3 class="text-lg font-semibold text-gray-900">Riwayat Jurnal</h3>
+          <h3 class="text-lg font-semibold text-gray-900">Your Journal</h3>
           <div 
             v-for="entry in journalHistory" 
             :key="entry.id"
